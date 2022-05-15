@@ -1,0 +1,5 @@
+<?php
+//$con= mysqli_connect("localhost","root","","hosoffice_web") or die("Error: " . mysqli_error($con));
+$con= mysqli_connect("192.168.2.13","sa","sa","invs_backup") or die("Error: " . mysqli_error($con));
+mysqli_query($con, "SET NAMES 'utf8' "); 
+?>

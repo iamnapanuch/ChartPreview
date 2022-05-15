@@ -1,0 +1,231 @@
+<?php include 'connection.php'; 
+ include 'check_user.php'; 
+ ?>
+ <?PHP include 'menu_0.php'?>
+ <?PHP include 'head.php'?>
+
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta http-equiv="refresh" content="1800;url=logout.php" />  
+<br>
+
+    <style>
+    
+        
+        .dataTables_filter {
+   float: right !important;
+   
+}
+
+div.n{
+    color: white ;
+    background-color:#229954 ;
+}
+div.f{
+    color: white ;
+    background-color:#D6B22A ;
+}
+div.s{
+    color: white ;
+    background-color:#F95508 ;
+}
+div.sf{
+    color: white ;
+    background-color:#F41A10 ;
+}
+.dataTables_filter {
+   float: right !important;
+   
+}
+.dataTables_wrapper  .dataTables_length{
+    float: left !important;
+        margin-left: 20px;
+    }
+    
+
+    @media screen and (max-width: 600px) {
+        .dataTables_filter {
+            float: left !important;
+            margin-left: 20px;
+            
+    
+  }
+}
+#dataTables_filter {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width:1250px;
+}
+
+@media screen and (max-width:1024px){
+    #dataTables_filter {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width:auto;
+
+  
+}
+}
+
+
+
+
+#dataTables_filter td, #dataTables_filter th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#dataTables_filter tr:nth-child(even){background-color: #fff;}
+
+#dataTables_filter tr:hover {background-color: #ddd;}
+
+#dataTables_filter th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: right;
+  background-color: #DD5A58;
+  color: white;
+  text-align:center;
+
+}
+.cusrow{
+    font-size:14px;
+    text-align:center;
+}
+  
+   
+.A {
+            font-family:  "Lucida Console";
+            color : black ;
+            }
+.table-responsive{
+    width: auto;
+    text-align:center;
+}
+                </style>
+    <br>
+    <left>
+        <h5>     <a class="A" href="home.php"> Home</a> | System Chart  </h5>
+        <div class="mb-4">
+        </div>
+    </left>
+</head>
+<body >
+    <?php //select table
+ $sql="SELECT a_s.an,a_s.hn,a_s.regdate,a_s.dchdate,
+CONCAT(p_t.pname,,p_t.fname, ' ',p_t.lname) AS hn_name
+ FROM an_stat as a_s
+ INNER JOIN patient as p_t ON a_s.hn = p_t.hn
+ WHERE a_s.regdate>='2021-01-1' 
+ ";
+// $sql="SELECT a_s.an,a_s.hn,a_s.regdate,a_s.dchdate,
+// CONCAT (p_t.pname,' ',p_t.fname' ',p_t.lname) AS hn_name
+// FROM an_stat as a_s
+// INNER JOIN patient as p_t ON a_s.hn = p_t.hn "; // หากต้องการค้นหาปีมากกว่า 1ปี ใช้ b_in.BOOK_YEAR_ID>='2564' จะได้ทั้งปี 2564-2565 แต่ช้ามาก ๆ
+$result = mysqli_query($con,$sql);
+
+    ?>
+
+
+
+        <div class="table-responsive">
+            <table id="dataTables_filter" class="table" >
+                <thead class="thead-light"  >                
+                    <tr >
+                    <th>AN</th>
+                        <th style='width:11%'>HN</th>
+                        <th>ชื่อผู้ป่วย</th>
+                        <th>วันที่Admit</th>
+                        <th style='width:11%'>วันที่Discharge</th>
+                        <th>ปุ่ม</th>
+                    </tr>
+                </thead>
+            <tbody>
+
+
+                    <?php
+                             
+                    while ($row = mysqli_fetch_array($result)) {
+
+                           
+                    ?>
+                            <tr class ="cusrow">
+                                <td><?= $row['an']; ?></td>
+                                <td><?= $row['hn']; ?></td>
+                                <td><?= $row['hn_name']; ?></td>
+                                <td><div class='n'><?= $row['regdate']; ?></td>
+                                <td><?= $row['dchdate']; ?></td>
+                                <td><a class="btn btn-primary " href="http://192.168.99.20:8880/documents/CHARTSCAN/<?php echo $row['an'];?>.pdf" target="_blank">กดอ่าน</a>
+                                </td>
+
+                            </tr>
+                        <?php
+                        }
+
+
+
+                   ?>
+                    <?php
+                     ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  
+
+    
+    <script type="text/javascript" charset="utf-8">
+        
+            $(document).ready(function() {
+            var t = $('#dataTables_filter').DataTable({
+                "oLanguage": {
+                    "sLengthMenu": "แสดง _MENU_ เร็คคอร์ด ต่อหน้า",
+                    "sZeroRecords": "ไม่เจอข้อมูลที่ค้นหา",
+                    "sInfo": "แสดง _START_ ถึง _END_ ของ _TOTAL_ เร็คคอร์ด",
+                    "sInfoEmpty": "แสดง 0 ถึง 0 ของ 0 เร็คคอร์ด",
+                    "sInfoFiltered": "(จากเร็คคอร์ดทั้งหมด _MAX_ เร็คคอร์ด)",
+                    "sSearch": "ค้นหา :",
+                    "sColumnDefs": "วัน เดือน ปี,ชั่วโมง:นาที:วินาที",
+                    "oPaginate": {
+        "sFirst":    "หน้าแรก",
+        "sPrevious": "ก่อนหน้า",
+        "sNext":     "ถัดไป",
+        "sLast":     "หน้าสุดท้าย"
+        },
+                },
+                
+                columnDefs:[{targets:4, render:function(data){
+                return moment(data).format('DD/MM/YYYY h:mm:ss');  
+    }}],rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true,
+                
+                "order": [
+                    [0, 'desc']
+                ],
+                pageLength: 10,
+                lengthMenu: 
+                
+                [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'ทั้งหมด        '],
+
+                ],
+            });
+        });
+
+
+
+        
+    </script>
+
+
+
+
+</body>
+
+
+</html>

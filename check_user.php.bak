@@ -1,0 +1,48 @@
+<?php
+session_start() ;
+if($_SESSION['USER_TYPE'] == 'USER')
+{
+
+}
+if($_SESSION['USER_TYPE'] == 'SUPER') 
+
+{
+
+}
+if($_SESSION['USER_TYPE'] == 'ADMIN') 
+
+{
+
+}
+else{
+  if($_SESSION['USER_TYPE'] == '')  
+ 	{
+    Header("Location: index.php");
+	  exit ;
+ 	}
+}
+
+
+?>
+
+<script>
+	  var t;
+    window.onload = resetTimer();
+    // DOM Events
+    document.onmousemove = resetTimer();
+    document.onkeypress = resetTimer();
+    console.log('loaded');
+
+function logout() {
+        alert("You are now logged out.")
+        //location.href = 'logout.php'
+    }
+
+    function resetTimer() {
+		
+        clearTimeout(t);
+        t = setTimeout(logout, 5000)
+        
+    }
+</script>
+
