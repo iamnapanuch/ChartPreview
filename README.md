@@ -1,5 +1,5 @@
 # chart_preview
-ระบบขอดูชารจ์คนไข้
+ระบบขอดูข้อมูลเวชระเบียนคนไข้
 using php mysqli
 
 Login
